@@ -41,13 +41,17 @@ public class Main {
         double current_mean = 0.0;
         double current_sum = 0.0;
 
-        for (int i = 0; nums.length >= i + window_size; i++) {
-            for (int j = i; j < i + window_size; j++) {
-                current_sum += nums[j];
-            }
+        for (int i = 0; i < window_size; i++) {
+            current_sum += nums[i];
+        }
+        if (window_size == nums.length)
+            return (current_sum / window_size);
+
+        for (int i = 0; nums.length-1 >= i + window_size; i++) {
+            current_sum = current_sum - nums[i];
+            current_sum = current_sum + nums[i + window_size];
             current_mean = current_sum / window_size;
             max_sum = Math.max(current_mean, max_sum);
-            current_sum = 0;
         }
         return max_sum;
     }
