@@ -55,22 +55,25 @@ public class Solution {
             slow = slow.next;
             fast = fast.next.next;
         }
-        // 此时你的fast应该在结尾，slow在中间
+        // 此时你的fast应该在结尾，slow在中间(结尾指的是最后一个node，不是null，因为你的循环不会到null)
 
         LinkedListNode curr = slow;
         LinkedListNode prev = null; // 用于反转我们的linklist
 
         //反转我们的linklist
         while(curr != null){
+            //你的temp一定是在里面的，因为要无限的更新，直到你的curr = null
+            //但当你curr = null的时候，你的temp因为要在循环内更新，所以也会在null停下，而不会导致out of index的问题
             LinkedListNode temp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = temp;
+            curr.next = prev; //更换指针指向
+            prev = curr; //将prev移动到prev，但是此时你的curr的next指针已经更新到了prev，所以无法再用prev = prev.next的方法了
+            curr = temp; //此时你的之前的temp就保存了更改指向前的下一个节点
         }
 
-        curr = head;
+        curr = head; // 重置到头部准备算max
 
-        while(prev != null){
+        //你的中点只会被curr指到，因为之前的切割办法，会在1/2 +1 的地方停下（因为fast会指向null）
+        while(prev != null){ 
             max_sum = Math.max(max_sum, curr.data + prev.data);
             prev = prev.next;
             curr = curr.next;
