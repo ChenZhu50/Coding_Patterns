@@ -40,11 +40,11 @@ public class Solution {
     }
 
     /*
-     * 1.通过快慢指针找到这个linklist的middle point
-     * 2.此时快指针在linklist的结尾，转换middle point之后的link list的方向
+     * 1. 通过快慢指针找到这个linklist的middle point
+     * 2. 此时快指针在linklist的结尾，转换middle point之后的link list的方向
      * 3. 初始化max_sum = 0 来记录最大的twin sum
      * 4. 初始化curr 指向link的头部，此时的prev应该就是这个revers之后的尾巴
-     * 5.遍历，记录
+     * 5. 遍历，记录
      * 6. 返回
      */
     public static int twinSum(LinkedListNode head) {
@@ -59,9 +59,26 @@ public class Solution {
         }
         // 此时你的fast应该在结尾，slow在中间
 
-        LinkedListNode middlePoint = slow;
+        LinkedListNode curr = slow;
+        LinkedListNode prev = null; // 用于反转我们的linklist
 
-        return -1;
+        //反转我们的linklist
+        while(curr != null){
+            LinkedListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+
+        curr = head;
+
+        while(prev != null){
+            max_sum = Math.max(max_sum, curr.data + prev.data);
+            prev = prev.next;
+            curr = curr.next;
+        }
+
+        return max_sum;
     }
 
     public static void main(String[] args) {
