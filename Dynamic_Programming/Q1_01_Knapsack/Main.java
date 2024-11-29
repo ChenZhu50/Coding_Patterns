@@ -1,5 +1,7 @@
 package Q1_01_Knapsack;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -64,8 +66,70 @@ public class Main {
         }
     }
 
+    /*
+        办法1：自顶向下的递归
+     * 1. 创建二维数组dp，行数为物品价值(weight)的长度+1，列数为物品重量（capacity）+1
+     * 2. 初始化dp的第一行和第一列为0
+     * 3. 遍历weights，对于每一个物品，遍历dp的每一列，
+     *      如果当前物品的重量小于等于当前列的重量，
+     *          那么dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-weights[i]] + values[i])，
+     *      否则dp[i][j] = dp[i-1][j]
+     * 4. 返回dp的最后一个元素
+     * 
+        办法二：自底向上的动态规划
+     * 1. 制作helper函数，参数为capacity, weights, values, dp, index
+     * 2. 考虑三种情况
+     *    1. 如果index == 0 || capacity == 0，返回0
+     *   2. 如果weights[index] > capacity，返回helper(capacity, weights, values, dp, index - 1)
+     *  3. 返回Math.max(helper(capacity, weights, values, dp, index - 1), values[index] + helper(capacity - weights[index], weights, values, dp, index - 1))
+     * 3. 在主方法中创建二维数组dp，行数为物品价值(weight)的长度+1，列数为物品重量（capacity）+1
+     * 4. 初始化dp的第一行和第一列为0
+     * 5.调用helper函数，返回dp的最后一个元素
+     * capacity: 背包的容量
+     * weights: 物品的重量
+     * values: 物品的价值
+     * 
+     */
     public static int findMaxKnapsackProfit(int capacity, int[] weights, int[] values) {
-        //todo: implement the function
-        return 0;
+        int n = weights.length;
+        //创建一个二维数组，行数为有多少个物品+1， 列数为背包的容量+1（因为第一行和第一列是0）
+        int[][] dp = new int[n + 1][capacity + 1];
+        //初始化列表
+        for(int[] row: dp) {
+            Arrays.fill(row, -1);
+        }
+        return findMaxKnapsackProfitHelper(capacity, weights, values,n, dp);
+    }
+
+    public static int findMaxKnapsackProfitHelper(int capacity, int[] weights, int[] values, int n, int[][] dp) {
+        //base case
+        if (n == 0 || capacity == 0) {
+            return 0;
+        }
+
+        //如果已经解决过这个子问题，就直接返回子问题的解
+        if (dp[n][capacity] != -1) {
+            return dp[n][capacity];
+        }
+
+        //如果当前重量<=背包的容量，那么我们可以选择放或者不放(Math.max)
+        if(weights[n-1] <= capacity) {
+            //在当前dp数组位置更新这个数
+            dp[n][capacity] = Math.max(
+                //不放
+                findMaxKnapsackProfitHelper(capacity, weights, values, n-1, dp), 
+
+                //放
+                values[n-1] + 
+                findMaxKnapsackProfitHelper(capacity - weights[n-1], weights, values, n-1, dp)
+                
+                );
+                //这里的返回是因为，我们一定能更新一个具体的数字给dp数组，所以我们返回这个数字
+                return dp[n][capacity];
+        }
+
+        //如果当前重量>背包的容量，那么我们只能选择不放
+        dp[n][capacity] = findMaxKnapsackProfitHelper(capacity, weights, values, n-1, dp);  
+        return dp[n][capacity];
     }
 }
