@@ -4,12 +4,14 @@ import java.util.Arrays;
 
 public class Main {
     public static void main( String args[] ) {
-        int [][] coins = {{2, 3, 4, 5}, 
+        int [][] coins = {
+            {1,2,3},
+            {2, 3, 4, 5}, 
             {1, 4, 6, 9}, 
             {6, 7, 8}, 
             {1, 2, 3, 4, 5}, 
             {14, 15, 18, 20}};
-        int [] total = {7, 11, 27, 41, 52};
+        int [] total = {5, 7, 11, 27, 41, 52};
         for (int i = 0; i < total.length; i++)
         {
             System.out.println(i + 1 + ".\tThe minimum number of coins required to find " + total[i] + " from " + Arrays.toString(coins[i]) + " is: "+ coinChange(coins[i], total[i]));
