@@ -90,6 +90,8 @@ public class Main {
      * values: 物品的价值
      * 
      */
+
+    /* solution one: top down 
     public static int findMaxKnapsackProfit(int capacity, int[] weights, int[] values) {
         int n = weights.length;
         //创建一个二维数组，行数为有多少个物品+1， 列数为背包的容量+1（因为第一行和第一列是0）
@@ -130,6 +132,39 @@ public class Main {
 
         //如果当前重量>背包的容量，那么我们只能选择不放
         dp[n][capacity] = findMaxKnapsackProfitHelper(capacity, weights, values, n-1, dp);  
+        return dp[n][capacity];
+    }
+        */
+
+    // solution two: bottom up
+    public static int findMaxKnapsackProfit(int capacity, int[] weights, int[] values) {
+        //创造一个表格来存储每一个子问题的解
+        int n = weights.length;
+
+        int[][] dp = new int[n + 1][capacity + 1];
+        //初始化表格
+        for(int [] row: dp) {
+            Arrays.fill(row, 0);
+        }
+
+        for(int i = 1; i <= n; i++){
+            //当此循环中的i表示物品的数量
+            //j表示本次循环是背包的容量
+            for(int j = 1; j <= capacity; j++) {
+                //如果当前物品重量<=背包重量，那么我们可以选择放或者不放
+                if(weights[i-1] <= j) {
+                    dp[i][j] = Math.max(
+                        //不放
+                        dp[i-1][j],
+                        //放
+                        values[i-1] + dp[i-1][j - weights[i-1]]
+                    );
+                }else {
+                    //如果当前物品重量>背包重量，那么我们只能选择不放
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
         return dp[n][capacity];
     }
 }
