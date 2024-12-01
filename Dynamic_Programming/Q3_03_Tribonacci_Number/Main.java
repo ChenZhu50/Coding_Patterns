@@ -51,7 +51,7 @@ public class Main {
 		int first = 0, second = 1, third = 1;
 		int temp = 0;
 
-		//之后，我们只需要替换就好了，因为我们也并没有需要前面的数字，只是简单的当前三个数字相加而已。
+		// 之后，我们只需要替换就好了，因为我们也并没有需要前面的数字，只是简单的当前三个数字相加而已。
 		for (int i = 3; i < n; i++) {
 			temp = first + second + third;
 			first = second;
