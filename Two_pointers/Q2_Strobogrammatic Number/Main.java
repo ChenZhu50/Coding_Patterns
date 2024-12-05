@@ -27,7 +27,7 @@ public class Main {
             end--;
 
 
-            if((left == 6 && right == 9)||(left == 9 && right == 6)){
+            if((left == '6' && right == '9')||(left == '9' && right == '6')){
                 continue;
             }
             else if ((left == '0' && right == '0') || (left == '1' && right == '1') || (left == '8' && right == '8')) {
