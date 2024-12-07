@@ -37,6 +37,7 @@ public class Main {
                     if (s.charAt(i) == s.charAt(k)) {
                         char temp = chars[k];
                         chars[k] = chars[k + 1];
+                        chars[k+1] = temp;
                         ++moves;
                     }
                 }
