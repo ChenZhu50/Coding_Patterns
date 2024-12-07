@@ -1,6 +1,6 @@
 package Q3_03_Tribonacci_Number;
 
-import java.util.*;
+//import java.util.*;
 
 public class Main {
 	public static void main(String[] args) {
