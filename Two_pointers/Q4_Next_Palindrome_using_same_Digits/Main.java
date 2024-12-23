@@ -1,7 +1,5 @@
 package Q4_Next_Palindrome_using_same_Digits;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
