@@ -1,17 +1,42 @@
 package doublePointer;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+import javafx.beans.binding.IntegerExpression;
+
 public class slidingWindwosMaximum {
     
     public static int[] maxSlidingWindow(int[] nums, int k) {
-        int i =0, j =0, maxLength = 0;
+        //checking if array have elements inside
+        if (nums == null || nums.length == 0) return new int[0];
 
-        while(j < nums.length){
-            j = i+k;
-            
-            Math.max(nums[i], nums[j]);
+        int n = nums.length;
+        int[] res = new int[n-k+1]; // how many slide windows we could have
+        Deque<Integer> deque = new ArrayDeque<>(); // store index
 
+        for(int i =0; i < n; i++){
+            //remove the index that not include in current slide windows
+            if(!deque.isEmpty() && deque.peekFirst() < i-k+1){
+                deque.pollFirst();
+            }
+
+            //compare the current value, 
+            //if current value is bigger then the last value in the deque, we pop the element from the end
+            while(!deque.isEmpty() && nums[deque.peekLast()]<nums[i]){ //? so you know that, when we store, we store the index, not the value
+                //? then how? when you compare, you only use peek will give the the value, not the index?
+                deque.pollLast();
+            }
+
+            //at here, the current value should be the largerst in the queue.
+            deque.offerLast(i);
+
+            //adding the value in the res array
+            if(i>= k-1){ //?why k-1?
+                res[i-k+1] = nums[deque.peekFirst()];
+            }
         }
-        return new int[0];
+        return res;
     }
 
     public static void main(String[] args) {
